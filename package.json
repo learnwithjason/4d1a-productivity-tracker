@@ -1,0 +1,23 @@
+{
+  "name": "@example/minimal",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@clerk/clerk-js": "^4.59.1",
+    "@clerk/clerk-sdk-node": "^4.12.10",
+    "astro": "^3.2.2",
+    "dayjs": "^1.11.10",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.3"
+  }
+}

@@ -1,0 +1,116 @@
+---
+import { query, queryOne } from '../utils/db';
+import Layout from '../layout/default.astro';
+import Progress from '../components/progress.astro';
+import { getCurrentUser } from '../utils/auth';
+
+const user = await getCurrentUser(Astro.cookies);
+if (!user) {
+  return Astro.redirect('/');
+}
+
+const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [user.id]);
+
+if (!settings?.thing) {
+  return Astro.redirect('/settings');
+}
+
+function getConsistencyScores(entryArray: { complete: boolean }[]) {
+  function getScore(items: typeof entryArray) {
+    return Math.round(
+      (items.filter((e) => e.complete === true).length / items.length) * 100,
+    );
+  }
+
+  return {
+    overall: {
+      score: getScore(entryArray),
+      count: entryArray.length,
+    },
+    recent: {
+      score: getScore(entryArray.slice(-7)),
+      count: entryArray.slice(-7).length,
+    },
+  };
+}
+
+const today = await queryOne('SELECT * FROM entries WHERE user_id = $1 AND time::date = NOW()::date', [user.id]);
+const entries = await query('SELECT * FROM entries WHERE user_id = $1', [user.id]);
+const consistency = getConsistencyScores(entries);
+---
+
+<Layout>
+  {today ? (
+    <h1>
+      <span>Your goal:</span>
+      {settings.thing}
+    </h1>
+    <Progress today={today} user={user} entries={entries} consistency={consistency} />
+  ) : (
+    <h1>You said you wanted to “{settings.thing}”.</h1>
+
+    <h2>Did you do the thing?</h2>
+
+    <form action="/api/track" method="POST">
+      <input type="hidden" name="complete" value="true" />
+      <button class="button yes">yes</button>
+    </form>
+
+    <form action="/api/track" method="POST">
+      <input type="hidden" name="complete" value="false" />
+      <button class="button no">no</button>
+    </form>
+  )}
+</Layout>
+
+<style>
+  h1 {
+    font-size: clamp(1.25rem, 6.5vw, 2rem);
+
+    & span {
+      color: var(--color-border);
+      display: block;
+      font-size: 1rem;
+      font-variant: small-caps;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 9vw, 2.75rem);
+    margin-block-start: 3rem;
+  }
+
+  .button {
+    border: 1px solid var(--color-border);
+    color: var(--color-border);
+    display: block;
+    font-size: clamp(3rem, 17vw, 4rem);
+    margin-inline: auto;
+    max-width: 370px;
+    padding: 1rem;
+
+    &.yes {
+      background: var(--color-green);
+      &:is(:hover, :focus) {
+        background: color-mix(
+          in srgb,
+          var(--color-white) 40%,
+          var(--color-green)
+        );
+      }
+    }
+
+    &.no {
+      background: var(--color-red);
+      &:is(:hover, :focus) {
+        background: color-mix(
+          in srgb,
+          var(--color-white) 40%,
+          var(--color-red)
+        );
+      }
+    }
+  }
+</style>

@@ -1,0 +1,94 @@
+---
+const { today, user, entries, consistency } = Astro.props;
+
+function pluralize(count) {
+  return count + (count === 1 ? ' day' : ' days');
+}
+---
+
+{today ? (
+  <h2>You did the thing today. Great work.</h2>
+) : (
+  <h1>Tomorrow’s a new day. Do the thing tomorrow.</h1>
+)}
+
+<ul class="entries">
+  {entries.slice(0, 7).map(({ complete }) => (
+    <li>
+      {complete ? (
+        <span role="img" aria-label="green circle">🟢</span>
+      ) : (
+        <span role="img" aria-label="red cross">❌</span>
+      )}
+    </li>
+  ))}
+</ul>
+
+<p class="new-habit">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 40 70"><path fill="#17294B" d="m23 29 2-29L0 40l17 1-2 29 25-40-17-1Z"/></svg>
+  It takes an average of 66 days to build a new habit.
+</p>
+
+<div class="score">
+  <p>
+    Your consistency:
+  </p>
+
+  <p>
+    Last {pluralize(consistency.recent.count)}: {consistency.recent.score}%
+  </p>
+
+  {consistency.recent.count < consistency.overall.count && (
+    <p>
+      All time ({pluralize(consistency.overall.count)}): {consistency.overall.score}%
+    </p>
+  )}
+</div>
+
+<style>
+  .new-habit {
+    align-items: center;
+    background: var(--color-gray-light);
+    border: 1px solid var(--color-text);
+    border-radius: 3px;
+    color: var(--color-text);
+    display: grid;
+    font-size: 1rem;
+    gap: 1rem;
+    grid-template-columns: 1.25rem 1fr;
+    line-height: 1.45;
+    margin: 1rem auto 0;
+    padding: 1rem;
+    text-align: left;
+    width: 70%;
+  }
+
+  h2 {
+    font-size: clamp(1rem, 8vw, 2.5rem);
+    margin-top: 2rem;
+  }
+
+  .entries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    & li {
+      font-size: clamp(1rem, 8vw, 2.75rem);
+    }
+  }
+
+  .score {
+    font-size: clamp(1rem, 7vw, 1.5rem);
+    margin-block-start: 1rem;
+
+    & p {
+      font-size: inherit;
+      margin-block-start: 0.5rem;
+    }
+  }
+</style>
