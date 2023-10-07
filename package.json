@@ -1,5 +1,5 @@
 {
-  "name": "@example/minimal",
+  "name": "4d1a-productivity-tracker",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -14,7 +14,6 @@
     "@clerk/clerk-js": "^4.59.1",
     "@clerk/clerk-sdk-node": "^4.12.10",
     "astro": "^3.2.2",
-    "dayjs": "^1.11.10",
     "pg": "^8.11.3"
   },
   "devDependencies": {
