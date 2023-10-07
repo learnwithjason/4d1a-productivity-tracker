@@ -1,6 +1,6 @@
-import { Pool } from 'pg';
+import pg from 'pg';
 
-const pool = await new Pool({
+const pool = await new pg.Pool({
   connectionString: import.meta.env.DATABASE_URL,
   ssl: true,
 });
