@@ -1,26 +1,35 @@
-import type { APIRoute } from 'astro';
-import { query } from '../../utils/db';
-import { getCurrentUser } from '../../utils/auth';
+import type { APIRoute } from "astro";
+import { query } from "../../utils/db";
+import { getAuth } from "../../astro-clerk";
 
 export const POST: APIRoute = async (context) => {
-  const user = await getCurrentUser(context.cookies);
+  const auth = await getAuth({ server: context.request });
 
-  if (!user || !user.id) {
-    return new Response('redirecting...', {
+  if (auth instanceof Response) {
+    return new Response("redirecting...", {
       headers: {
-        location: '/',
+        location: "/",
+      },
+      status: 301,
+    });
+  }
+
+  if (!auth.userId) {
+    return new Response("redirecting...", {
+      headers: {
+        location: "/",
       },
       status: 301,
     });
   }
 
   const data = await context.request.formData();
-  const thing = data.get('thing') as string;
+  const thing = data.get("thing") as string;
 
   if (!thing) {
-    return new Response('redirecting...', {
+    return new Response("redirecting...", {
       headers: {
-        location: '/',
+        location: "/",
       },
       status: 301,
     });
@@ -40,12 +49,12 @@ export const POST: APIRoute = async (context) => {
     DO
       UPDATE SET thing = $2
   `,
-    [user.id, thing],
+    [auth.userId, thing]
   );
 
-  return new Response('redirecting...', {
+  return new Response("redirecting...", {
     headers: {
-      location: '/track',
+      location: "/track",
     },
     status: 301,
   });
