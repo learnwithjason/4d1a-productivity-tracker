@@ -5,55 +5,55 @@ import { getCurrentUser } from '../utils/auth';
 
 const user = await getCurrentUser(Astro.cookies);
 if (!user) {
-  return Astro.redirect('/');
+	return Astro.redirect('/');
 }
 
 const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [
-  user.id,
+	user.id,
 ]);
 ---
 
 <Layout>
-  <h1 id="form-label">What is the action you want to take?</h1>
-  <form action="/api/settings" method="post">
-    <input
-      type="text"
-      aria-labelledby="form-label"
-      id="thing"
-      name="thing"
-      value={settings.thing ?? ''}
-    />
-    <button>Let’s Do This</button>
-  </form>
-  <div class="instructions">
-    <p>Use action words. Here are examples of action-focused goals:</p>
-    <ul>
-      <li>“Make a video every weekday.”</li>
-      <li>“Publish a blog post every day.”</li>
-      <li>“Build one new app per week.”</li>
-      <li>“Drink 2L of water every day.”</li>
-      <li>“Work out 3 times per week.”</li>
-    </ul>
-  </div>
+	<h1 id="form-label">What is the action you want to take?</h1>
+	<form action="/api/settings" method="post">
+		<input
+			type="text"
+			aria-labelledby="form-label"
+			id="thing"
+			name="thing"
+			value={settings?.thing ?? ''}
+		/>
+		<button>Let’s Do This</button>
+	</form>
+	<div class="instructions">
+		<p>Use action words. Here are examples of action-focused goals:</p>
+		<ul>
+			<li>“Make a video every weekday.”</li>
+			<li>“Publish a blog post every day.”</li>
+			<li>“Build one new app per week.”</li>
+			<li>“Drink 2L of water every day.”</li>
+			<li>“Work out 3 times per week.”</li>
+		</ul>
+	</div>
 </Layout>
 
 <style>
-  .instructions {
-    font-size: 1rem;
-    font-weight: 300;
-    margin-block-start: 2rem;
+	.instructions {
+		font-size: 1rem;
+		font-weight: 300;
+		margin-block-start: 2rem;
 
-    & :is(ul, p) {
-      font-size: inherit;
-    }
+		& :is(ul, p) {
+			font-size: inherit;
+		}
 
-    & ul {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      list-style: none;
-      padding: 0;
-      text-align: center;
-    }
-  }
+		& ul {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			list-style: none;
+			padding: 0;
+			text-align: center;
+		}
+	}
 </style>

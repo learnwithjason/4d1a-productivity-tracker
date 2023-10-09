@@ -15,7 +15,8 @@
     "@clerk/clerk-js": "^4.59.1",
     "@clerk/clerk-sdk-node": "^4.12.10",
     "astro": "^3.2.2",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@types/pg": "^8.10.3"
