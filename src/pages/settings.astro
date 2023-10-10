@@ -1,16 +1,19 @@
 ---
 import Layout from '../layout/default.astro';
 import { queryOne } from '../utils/db';
-import { getCurrentUser } from '../utils/auth';
+import { getAuth } from '../astro-clerk';
 
-const user = await getCurrentUser(Astro.cookies);
-if (!user) {
-	return Astro.redirect('/');
+const auth = await getAuth({ client: Astro });
+
+if (auth instanceof Response) {
+  return auth;
 }
 
-const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [
-	user.id,
-]);
+if (!auth.userId) {
+  return Astro.redirect('/', 307);
+}
+
+const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [auth.userId]);
 ---
 
 <Layout>

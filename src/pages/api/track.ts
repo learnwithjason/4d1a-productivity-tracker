@@ -1,28 +1,28 @@
-import type { APIRoute } from 'astro';
-import { query } from '../../utils/db';
-import { getCurrentUser } from '../../utils/auth';
+import type { APIRoute } from "astro";
+import { query } from "../../utils/db";
+import { getAuth } from "../../astro-clerk";
 
 export const POST: APIRoute = async (context) => {
-  const user = await getCurrentUser(context.cookies);
+  const auth = await getAuth({ server: context.request });
 
-  if (!user) {
-    return new Response('redirecting...', {
+  if (auth instanceof Response) {
+    return new Response("redirecting...", {
       headers: {
-        location: '/',
+        location: "/",
       },
       status: 301,
     });
   }
 
   const data = await context.request.formData();
-  const complete = data.get('complete') === 'true';
+  const complete = data.get("complete") === "true";
 
-  if (!user.id) {
-    console.error('no user found');
+  if (!auth.userId) {
+    console.error("no user found");
 
-    return new Response('redirecting...', {
+    return new Response("redirecting...", {
       headers: {
-        location: '/',
+        location: "/",
       },
       status: 301,
     });
@@ -39,12 +39,12 @@ export const POST: APIRoute = async (context) => {
         $2
       );
     `,
-    [user.id, complete],
+    [auth.userId, complete]
   );
 
-  return new Response('redirecting...', {
+  return new Response("redirecting...", {
     headers: {
-      location: '/track',
+      location: "/track",
     },
     status: 301,
   });

@@ -2,14 +2,19 @@
 import { query, queryOne } from '../utils/db';
 import Layout from '../layout/default.astro';
 import Progress from '../components/progress.astro';
-import { getCurrentUser } from '../utils/auth';
+import { getAuth, signInUrl } from '../astro-clerk';
 
-const user = await getCurrentUser(Astro.cookies);
-if (!user) {
-  return Astro.redirect('/');
+const auth = await getAuth({ client: Astro });
+
+if (auth instanceof Response) {
+  return auth;
 }
 
-const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [user.id]);
+if (!auth.userId) {
+  return Astro.redirect('/', 307);
+}
+
+const settings = await queryOne('SELECT * FROM settings WHERE user_id = $1', [auth.userId]);
 
 if (!settings?.thing) {
   return Astro.redirect('/settings');
@@ -34,8 +39,8 @@ function getConsistencyScores(entryArray: { complete: boolean }[]) {
   };
 }
 
-const today = await queryOne('SELECT * FROM entries WHERE user_id = $1 AND time::date = NOW()::date', [user.id]);
-const entries = await query('SELECT * FROM entries WHERE user_id = $1', [user.id]);
+const today = await queryOne('SELECT * FROM entries WHERE user_id = $1 AND time::date = NOW()::date', [auth.userId]);
+const entries = await query('SELECT * FROM entries WHERE user_id = $1', [auth.userId]);
 const consistency = getConsistencyScores(entries);
 ---
 
@@ -45,7 +50,7 @@ const consistency = getConsistencyScores(entries);
       <span>Your goal:</span>
       {settings.thing}
     </h1>
-    <Progress today={today} user={user} entries={entries} consistency={consistency} />
+    <Progress today={today} entries={entries} consistency={consistency} />
   ) : (
     <h1>You said you wanted to “{settings.thing}”.</h1>
 

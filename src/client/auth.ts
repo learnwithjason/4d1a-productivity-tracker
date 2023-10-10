@@ -1,6 +1,4 @@
-import Clerk from '@clerk/clerk-js';
-
-const clerk = new Clerk(import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY);
+import { clerkJSInstance as clerk } from '../astro-clerk/client';
 
 await clerk.load();
 
@@ -9,6 +7,7 @@ async function updateUI() {
 		const targetDiv = document.querySelector<HTMLDivElement>('.clerk');
 
 		if (!targetDiv) {
+			// window.location.href = '/track';
 			return;
 		}
 
@@ -29,7 +28,7 @@ async function updateUI() {
 	}
 
 	// not logged in; show a sign in button
-	const url = await clerk.buildSignInUrl({ redirectUrl: '/auth-redirect' });
+	const url = await clerk.buildSignInUrl({ redirectUrl: '/track' });
 	const btns = document.querySelectorAll('[data-clerk-login]');
 
 	btns.forEach((btn) => {
@@ -41,4 +40,4 @@ async function updateUI() {
 	});
 }
 
-updateUI();
+await updateUI();

@@ -1,7 +1,13 @@
 ---
-import { getCurrentUser } from '../utils/auth';
+import { getAuth } from '../astro-clerk';
+const auth = await getAuth({ client: Astro }, {
+  loadUser:true
+});
 
-const user = await getCurrentUser(Astro.cookies);
+if (auth instanceof Response) {
+  return auth;
+}
+
 ---
 
 <html lang="en">
@@ -25,7 +31,7 @@ const user = await getCurrentUser(Astro.cookies);
       <nav>
         <div class="navContainer">
           {
-            !user ? (
+            !auth.userId ? (
               <a data-clerk-login href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -1,19 +1,24 @@
 ---
-import { getCurrentUser } from '../utils/auth';
 import Layout from '../layout/default.astro';
+import { getAuth } from '../astro-clerk';
 
-const user = await getCurrentUser(Astro.cookies);
+const auth = await getAuth(
+	{ client: Astro },
+	{
+		loadUser: true,
+	},
+);
 
-if (user) {
-  return Astro.redirect('/track');
+if (auth instanceof Response) {
+	return auth;
 }
 ---
 
 <Layout>
-  <h1>No more excuses.</h1>
-  <p>
-    Use this app to track actions. Nothing else counts. You either did the thing
-    or you didn’t.
-  </p>
-  <button data-clerk-login>start</button>
+	<h1>No more excuses.</h1>
+	<p>
+		Use this app to track actions. Nothing else counts. You either did the thing
+		or you didn’t.
+	</p>
+	<button data-clerk-login>start</button>
 </Layout>
