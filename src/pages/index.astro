@@ -2,23 +2,23 @@
 import Layout from '../layout/default.astro';
 import { getAuth } from '../astro-clerk';
 
-
-const auth = await getAuth({ client: Astro }, {
-  loadUser:true
-});
+const auth = await getAuth(
+	{ client: Astro },
+	{
+		loadUser: true,
+	},
+);
 
 if (auth instanceof Response) {
-  return auth;
+	return auth;
 }
-
 ---
 
 <Layout>
-  {auth?.user?.username}
-  <h1>No more excuses.</h1>
-  <p>
-    Use this app to track actions. Nothing else counts. You either did the thing
-    or you didn’t.
-  </p>
-  <button data-clerk-login>start</button>
+	<h1>No more excuses.</h1>
+	<p>
+		Use this app to track actions. Nothing else counts. You either did the thing
+		or you didn’t.
+	</p>
+	<button data-clerk-login>start</button>
 </Layout>
