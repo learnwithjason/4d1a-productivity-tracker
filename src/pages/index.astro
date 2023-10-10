@@ -14,7 +14,7 @@ if (auth instanceof Response) {
 }
 
 if (auth.userId) {
-	Astro.redirect('/track');
+	return Astro.redirect('/track');
 }
 ---
 
