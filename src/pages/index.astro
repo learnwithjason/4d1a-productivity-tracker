@@ -12,6 +12,10 @@ const auth = await getAuth(
 if (auth instanceof Response) {
 	return auth;
 }
+
+if (auth.userId) {
+	Astro.redirect('/track');
+}
 ---
 
 <Layout>
