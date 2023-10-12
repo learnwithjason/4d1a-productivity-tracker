@@ -5,64 +5,98 @@ export const prerender = false;
 ---
 
 <Layout>
-  <div class="about">
-    <h1>About this app</h1>
-    <p>
-      <abbr title="Just Fucking Do It">JFDI</abbr> is an acronym for the phrase,
-      "Just Fucking Do It", which I first heard from <a
-        href="https://dangerouslyawesome.com/2016/08/what-jfdi-really-means/"
-        >this post by Alex Hillman</a
-      >.
-    </p>
+	<div class="about">
+		<h1>About this app</h1>
+		<p>
+			<abbr title="Just Fucking Do It">JFDI</abbr> is an acronym for the phrase,
 
-    <h2>Why build this app?</h2>
-    <p>
-      <strong
-        >I spend a lot of time <a
-          href="https://www.tiktok.com/@learnwithjason/video/7278328975598816554"
-          >productively procrastinating</a
-        >.</strong
-      > I want to be perfect, so I plan, prep, research, and rethink as much as
-      possible to avoid actually doing the thing.
-    </p>
 
-    <h2>My productivity apps are accomplices.</h2>
-    <p>
-      I have dozens of todos for work that’s not actually moving me closer to my
-      goals. <strong
-        >I load up on items that are <em>related</em> to the thing, but let me
-        avoid actually <em>doing the thing</em>.</strong
-      > I use preparation as a safety blanket to protect myself from the terror
-      of actually shipping an idea and letting other people see it.
-    </p>
+			<a href="https://dangerouslyawesome.com/2011/11/ctfd-and-jfdi/"
+				>"Just Fucking Do It"</a
+			>, which is the personal mantra of Alex Hillman (pictured below).
+		</p>
+		<figure>
+			<img
+				src="https://res.cloudinary.com/jlengstorf/image/upload/w_600,q_auto,f_auto/v1697140731/4d1a/alex-hillman-jfdi.jpg"
+				alt="Alex Hillman holding up his arm to display the JFDI tattoo on his forearm."
+			/>
+			<figcaption>
+				Alex believes in this concept so strongly it’s tattooed on his body.
+			</figcaption>
+		</figure>
+		<p>
+			The design in the header and the concept itself are Alex’s work, used with
+			his express permission.
+		</p>
 
-    <h2>This app is my attempt to remove that safety blanket.</h2>
-    <p>
-      It asks you to define the one thing you want to do, and then asks you if
-      you did the thing today. <strong
-        >No wiggle room. You either did the thing or you didn't.</strong
-      >
-    </p>
-  </div>
+		<h2>Why build this app?</h2>
+		<p>
+			<strong
+				>I spend a lot of time <a
+					href="https://www.tiktok.com/@learnwithjason/video/7278328975598816554"
+					>productively procrastinating</a
+				>.</strong
+			> I want to be perfect, so I plan, prep, research, and rethink as much as
+			possible to avoid actually doing the thing.
+		</p>
+
+		<h2>My productivity apps are accomplices.</h2>
+		<p>
+			I have dozens of todos for work that’s not actually moving me closer to my
+			goals. <strong
+				>I load up on items that are <em>related</em> to the thing, but let me
+				avoid actually <em>doing the thing</em>.</strong
+			> I use preparation as a safety blanket to protect myself from the terror
+			of actually shipping an idea and letting other people see it.
+		</p>
+
+		<h2>This app is my attempt to remove that safety blanket.</h2>
+		<p>
+			It asks you to define the one thing you want to do, and then asks you if
+			you did the thing today. <strong
+				>No wiggle room. You either did the thing or you didn't.</strong
+			>
+		</p>
+	</div>
 </Layout>
 
 <style>
-  .about {
-    padding-block-end: 6rem;
-    & h1 {
-      font-size: 2.5rem;
-      text-align: left;
-    }
+	.about {
+		padding-block-end: 6rem;
+		& h1 {
+			font-size: 2.5rem;
+			text-align: left;
+		}
 
-    & h2 {
-      font-size: 1.5rem;
-      margin-top: 1.75rem;
-      text-align: left;
-    }
+		& h2 {
+			font-size: 1.5rem;
+			margin-top: 1.75rem;
+			text-align: left;
+		}
 
-    & p {
-      margin-top: 1rem;
-      text-align: left;
-    }
-  }
+		& figure {
+			background: var(--color-gray-light);
+			border-radius: 10px;
+			margin: 1.5rem auto;
+			padding: 5px;
+			width: min(100%, 300px);
+		}
+
+		& img {
+			border-radius: 5px;
+			display: block;
+			width: 100%;
+		}
+
+		& figcaption {
+			font-size: 0.75rem;
+			line-height: 1.1;
+			margin-block-start: 0.5rem;
+		}
+
+		& p {
+			margin-top: 1rem;
+			text-align: left;
+		}
+	}
 </style>

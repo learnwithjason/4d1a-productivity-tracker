@@ -5,6 +5,8 @@ await clerk.load();
 async function updateUI() {
 	if (clerk.user) {
 		const targetDiv = document.querySelector<HTMLDivElement>('.clerk');
+		const navContainer =
+			document.querySelector<HTMLDivElement>('.navContainer');
 
 		if (!targetDiv) {
 			// window.location.href = '/track';
@@ -15,15 +17,23 @@ async function updateUI() {
 			afterSignOutUrl: '/',
 			appearance: {
 				elements: {
+					rootBox: {
+						marginInline: 'auto',
+					},
 					avatarBox: {
 						aspectRatio: 1,
-						border: '1px solid var(--color-border)',
+						border: 'clamp(3px, 0.75vw, 5px) solid #17294B',
 						height: 'auto',
 						width: 'clamp(30px, 6.5vw, 50px)',
 					},
 				},
 			},
 		});
+
+		const label = document.createElement('span');
+		label.innerText = 'account';
+		label.classList.add('icon-account-label');
+		navContainer?.appendChild(label);
 		return;
 	}
 
